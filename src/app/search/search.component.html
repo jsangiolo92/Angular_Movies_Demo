@@ -1,6 +1,7 @@
 <div>
-  <select>
-    <option *ngFor="let genre of genres" value="genre.id">{{ genre.name }}</option>
+  <select #dropDown (change)="onChange(dropDown.value)">
+    <option selected>Select a Genre</option>
+    <option *ngFor="let genre of genres" [value]="genre.id">{{ genre.name }}</option>
   </select>
   <br/>
   <button>Fetch Movies</button>

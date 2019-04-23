@@ -10,6 +10,7 @@ import { SearchService } from './search.service';
 export class SearchComponent implements OnInit {
 
   genres: Genre[];
+  selectedGenre: number;
 
   constructor(private searchService: SearchService) { }
 
@@ -23,6 +24,11 @@ export class SearchComponent implements OnInit {
       console.log(response.responseStatus);
       this.genres = response.categories.genres;
     });
+  }
+
+  onChange(genreId: number) {
+    console.log(genreId);
+    this.selectedGenre = genreId;
   }
 
 }
