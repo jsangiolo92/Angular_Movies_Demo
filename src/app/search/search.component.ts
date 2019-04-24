@@ -33,7 +33,6 @@ export class SearchComponent implements OnInit {
       this.searchService.getMoviesByGenre(this.selectedGenre).subscribe( (response) => {
         console.log(response.responseStatus);
         this.searchResults = response.moviesOfGenre.results;
-        console.log(this.searchResults[0]);
       });
     }
   }
@@ -47,8 +46,12 @@ export class SearchComponent implements OnInit {
   }
 
   onChange(genreId: number) {
-    console.log(genreId);
     this.selectedGenre = genreId;
+  }
+
+  onMovieClick(movie: object) {
+    console.log('you clicked on: ', movie.title);
+    console.log(movie);
   }
 
 }

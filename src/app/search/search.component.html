@@ -7,7 +7,7 @@
   <button (click)="fetchMoviesByGenre()">Fetch Movies</button>
 
   <ul class="movies">
-    <li *ngFor="let movie of searchResults" class="movieItem">
+    <li *ngFor="let movie of searchResults" class="movieItem" (click)="onMovieClick(movie)">
       <img [src]="renderImage(movie.poster_path)"/>
       <div class="movieDesc">
         <h2>{{ movie.title }}</h2>
