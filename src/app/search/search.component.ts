@@ -17,6 +17,7 @@ export class SearchComponent implements OnInit {
   constructor(private searchService: SearchService, private router: Router) { }
 
   ngOnInit() {
+    console.log('search initialized');
     this.fetchGenres();
   }
 
