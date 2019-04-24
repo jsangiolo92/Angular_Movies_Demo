@@ -10,6 +10,7 @@ import { SearchService } from './search.service';
 export class SearchComponent implements OnInit {
 
   genres: Genre[];
+  searchResults: object[];
   selectedGenre: number;
 
   constructor(private searchService: SearchService) { }
@@ -18,12 +19,31 @@ export class SearchComponent implements OnInit {
     this.fetchGenres();
   }
 
-  fetchGenres() {
-    console.log('fetchGenres called');
+  fetchGenres(): void {
     this.searchService.getGenres().subscribe( (response) => {
       console.log(response.responseStatus);
       this.genres = response.categories.genres;
     });
+  }
+
+  fetchMoviesByGenre(): void {
+    if (!this.selectedGenre) {
+      alert('Please select a genre');
+    } else {
+      this.searchService.getMoviesByGenre(this.selectedGenre).subscribe( (response) => {
+        console.log(response.responseStatus);
+        this.searchResults = response.moviesOfGenre.results;
+        console.log(this.searchResults[0]);
+      });
+    }
+  }
+
+  renderImage(url): string {
+    if (url) {
+      return `https://image.tmdb.org/t/p/w154/${url}`;
+    } else {
+      return 'https://cdn.browshot.com/static/images/not-found.png';
+    }
   }
 
   onChange(genreId: number) {

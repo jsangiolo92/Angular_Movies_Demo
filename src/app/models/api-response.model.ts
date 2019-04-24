@@ -5,5 +5,7 @@ export interface APIResponse {
   categories: {
     genres: Genre[];
   };
-  movies: object;
+  moviesOfGenre: {
+    results: object[];
+  };
 }

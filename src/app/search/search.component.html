@@ -4,5 +4,24 @@
     <option *ngFor="let genre of genres" [value]="genre.id">{{ genre.name }}</option>
   </select>
   <br/>
-  <button>Fetch Movies</button>
+  <button (click)="fetchMoviesByGenre()">Fetch Movies</button>
+
+  <ul class="movies">
+    <li *ngFor="let movie of searchResults" class="movieItem">
+      <img [src]="renderImage(movie.poster_path)"/>
+      <div class="movieDesc">
+        <h2>{{ movie.title }}</h2>
+        <section class="movieDetails">
+          <div class="movieYear">
+            <span class="title">Year</span>
+            <span>{{ movie.release_date }}</span>
+          </div>
+          <div class="movieRating">
+            <span class="title">Rating</span>
+            <span>{{ movie.vote_average }}</span>
+          </div>
+        </section>
+      </div>
+    </li>
+  </ul>
 </div>
