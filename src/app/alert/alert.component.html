@@ -1,0 +1,22 @@
+<div>You've Selected</div>
+<div class="movies">
+  <img [src]="renderImage(selectedMovie.poster_path)"/>
+  <div class="movieDesc">
+    <h2>{{ selectedMovie.title }}</h2>
+    <section class="movieDetails">
+      <div class="movieYear">
+        <span class="title">Year</span>
+        <span>{{ selectedMovie.release_date }}</span>
+      </div>
+      <div class="movieRating">
+        <span class="title">Rating</span>
+        <span>{{ selectedMovie.vote_average }}</span>
+      </div>
+    </section>
+    <section class="movieDetails">
+      <button class="addBtn" (click)="addToFavorites()">Add to Favorites</button>
+      <button class="cancelBtn" (click)="cancelSelection()">Cancel</button>
+    </section>
+  </div>
+</div>
+

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Genre } from '../models/genre.model';
 import { SearchService } from './search.service';
 
@@ -13,7 +14,7 @@ export class SearchComponent implements OnInit {
   searchResults: object[];
   selectedGenre: number;
 
-  constructor(private searchService: SearchService) { }
+  constructor(private searchService: SearchService, private router: Router) { }
 
   ngOnInit() {
     this.fetchGenres();
@@ -37,12 +38,8 @@ export class SearchComponent implements OnInit {
     }
   }
 
-  renderImage(url): string {
-    if (url) {
-      return `https://image.tmdb.org/t/p/w154/${url}`;
-    } else {
-      return 'https://cdn.browshot.com/static/images/not-found.png';
-    }
+  renderImage(url: string): string {
+    return this.searchService.renderImage(url, 154);
   }
 
   onChange(genreId: number) {
@@ -51,7 +48,8 @@ export class SearchComponent implements OnInit {
 
   onMovieClick(movie: object) {
     console.log('you clicked on: ', movie.title);
-    console.log(movie);
+    this.searchService.selectMovie(movie);
+    this.router.navigate(['/alert']);
   }
 
 }
