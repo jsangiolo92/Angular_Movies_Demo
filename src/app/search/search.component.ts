@@ -47,7 +47,6 @@ export class SearchComponent implements OnInit {
   }
 
   onMovieClick(movie: object) {
-    console.log('you clicked on: ', movie.title);
     this.searchService.selectMovie(movie);
     this.router.navigate(['/alert']);
   }
