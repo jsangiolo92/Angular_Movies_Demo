@@ -11,6 +11,7 @@ export class SearchService {
   private genresUrl = 'http://localhost:4000/api';
   private moviesUrl = 'http://localhost:4000/api/genre';
   public selectedMovie = new BehaviorSubject({});
+  public currentGenre = new BehaviorSubject(null);
 
   constructor(private http: HttpClient) { }
 

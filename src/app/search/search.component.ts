@@ -1,19 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Genre } from '../models/genre.model';
 import { SearchService } from './search.service';
 import { ApiMovie } from '../models/api-movie.model';
 import { FavoritesService } from '../favorites/favorites.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss']
 })
-export class SearchComponent implements OnInit {
+export class SearchComponent implements OnInit, OnDestroy {
 
   genres: Genre[];
   searchResults: ApiMovie[];
+  genreSub: Subscription;
   selectedGenre: number;
 
   constructor(
@@ -25,12 +27,18 @@ export class SearchComponent implements OnInit {
   ngOnInit() {
     this.fetchGenres();
     this.favoritesService.updateFavorites();
+    this.genreSub = this.searchService.currentGenre.subscribe( (genreId) => {
+      this.selectedGenre = genreId;
+    });
   }
 
   fetchGenres(): void {
     this.searchService.getGenres().subscribe( (response) => {
       console.log(response.responseStatus);
       this.genres = response.categories.genres;
+      if (this.selectedGenre) {
+        this.fetchMoviesByGenre();
+      }
     });
   }
 
@@ -50,7 +58,7 @@ export class SearchComponent implements OnInit {
   }
 
   onChange(genreId: number) {
-    this.selectedGenre = genreId;
+    this.searchService.currentGenre.next(genreId);
   }
 
   onMovieClick(apiMovie: ApiMovie) {
@@ -60,6 +68,10 @@ export class SearchComponent implements OnInit {
 
   goToFavorites() {
     this.router.navigate(['favorites']);
+  }
+
+  ngOnDestroy() {
+    this.genreSub.unsubscribe();
   }
 
 }
