@@ -36,7 +36,7 @@ export class AlertService {
   }
 
   cancelSelection(): void {
-    this.searchService.selectMovie({});
+    this.searchService.selectedMovie.next({});
     this.router.navigate(['']);
   }
 }

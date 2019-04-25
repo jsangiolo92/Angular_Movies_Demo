@@ -59,7 +59,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   onMovieClick(apiMovie: ApiMovie) {
-    this.searchService.selectMovie(apiMovie);
+    this.searchService.selectedMovie.next(apiMovie);
     this.router.navigate(['/alert']);
   }
 

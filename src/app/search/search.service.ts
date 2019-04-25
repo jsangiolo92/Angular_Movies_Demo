@@ -24,10 +24,6 @@ export class SearchService {
     return this.http.get<APIResponse>(endPoint);
   }
 
-  selectMovie(movie: object) {
-    this.selectedMovie.next(movie);
-  }
-
   renderImage(url: string, size: number): string {
     if (url) {
       return `https://image.tmdb.org/t/p/w${size}/${url}`;
