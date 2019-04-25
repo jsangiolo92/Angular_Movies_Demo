@@ -23,4 +23,8 @@ export class FavoritesService {
       this.favoriteMovies.next(response.favoriteMovies);
     });
   }
+
+  deleteFavorites(movieId: number): Observable<DatabaseResponse> {
+    return this.http.delete<DatabaseResponse>(`${this.favoritesEndPoint}/${movieId}`);
+  }
 }

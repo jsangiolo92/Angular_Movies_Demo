@@ -1,7 +1,7 @@
 <div>Favorites
   <button (click)="goToSearch()">Back To Search</button>
   <ul class="movies">
-    <li *ngFor="let movie of favoriteMovies" class="movieItem">
+    <li *ngFor="let movie of favoriteMovies" class="movieItem" (click)="deleteFromFavorites(movie.id)">
       <img [src]="renderImage(movie.posterPath)"/>
       <div class="movieDesc">
         <h2>{{ movie.title }}</h2>

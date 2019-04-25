@@ -23,12 +23,20 @@ export class FavoritesComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.favoritesSub = this.favoritesService.favoriteMovies.subscribe( (data) => {
+      console.log('new value in favoritesComponent Sub');
       this.favoriteMovies = data;
     });
   }
 
   renderImage(url: string): string {
     return this.searchService.renderImage(url, 154);
+  }
+
+  deleteFromFavorites(movieId: number) {
+    this.favoritesService.deleteFavorites(movieId).subscribe( (response) => {
+      console.log(response.responseStatus);
+      this.favoritesService.updateFavorites();
+    });
   }
 
   goToSearch() {
