@@ -23,7 +23,7 @@ export class AlertComponent implements OnInit, OnDestroy {
     });
   }
 
-  renderImage(url): string {
+  renderImage(url: string): string {
     return this.searchService.renderImage(url, 342);
   }
 

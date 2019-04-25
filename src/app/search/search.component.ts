@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Genre } from '../models/genre.model';
 import { SearchService } from './search.service';
 import { ApiMovie } from '../models/api-movie.model';
+import { FavoritesService } from '../favorites/favorites.service';
 
 @Component({
   selector: 'app-search',
@@ -15,10 +16,15 @@ export class SearchComponent implements OnInit {
   searchResults: ApiMovie[];
   selectedGenre: number;
 
-  constructor(private searchService: SearchService, private router: Router) { }
+  constructor(
+    private searchService: SearchService,
+    private favoritesService: FavoritesService,
+    private router: Router
+    ) { }
 
   ngOnInit() {
     this.fetchGenres();
+    this.favoritesService.updateFavorites();
   }
 
   fetchGenres(): void {
@@ -47,9 +53,13 @@ export class SearchComponent implements OnInit {
     this.selectedGenre = genreId;
   }
 
-  onMovieClick(movie: object) {
-    this.searchService.selectMovie(movie);
+  onMovieClick(apiMovie: ApiMovie) {
+    this.searchService.selectMovie(apiMovie);
     this.router.navigate(['/alert']);
+  }
+
+  goToFavorites() {
+    this.router.navigate(['favorites']);
   }
 
 }

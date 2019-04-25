@@ -5,6 +5,7 @@
   </select>
   <br/>
   <button (click)="fetchMoviesByGenre()">Fetch Movies</button>
+  <button (click)="goToFavorites()">Show Favorites</button>
 
   <ul class="movies">
     <li *ngFor="let movie of searchResults" class="movieItem" (click)="onMovieClick(movie)">

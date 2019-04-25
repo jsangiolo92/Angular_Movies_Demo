@@ -1,0 +1,21 @@
+<div>Favorites
+  <button (click)="goToSearch()">Back To Search</button>
+  <ul class="movies">
+    <li *ngFor="let movie of favoriteMovies" class="movieItem">
+      <img [src]="renderImage(movie.posterPath)"/>
+      <div class="movieDesc">
+        <h2>{{ movie.title }}</h2>
+        <section class="movieDetails">
+          <div class="movieYear">
+            <span class="title">Year</span>
+            <span>{{ movie.releaseDate }}</span>
+          </div>
+          <div class="movieRating">
+            <span class="title">Rating</span>
+            <span>{{ movie.voteAverage }}</span>
+          </div>
+        </section>
+      </div>
+    </li>
+  </ul>
+</div>
