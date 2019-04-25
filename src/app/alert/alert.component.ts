@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AlertService } from './alert.service';
 import { SearchService } from '../search/search.service';
+import { ApiMovie } from '../models/api-movie.model';
 
 @Component({
   selector: 'app-alert',
@@ -11,7 +12,7 @@ import { SearchService } from '../search/search.service';
 export class AlertComponent implements OnInit, OnDestroy {
 
   private movieSub: Subscription;
-  private selectedMovie: object;
+  public selectedMovie: ApiMovie;
 
   constructor(private alertService: AlertService, private searchService: SearchService) { }
 

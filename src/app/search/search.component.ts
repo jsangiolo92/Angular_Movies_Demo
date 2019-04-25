@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Genre } from '../models/genre.model';
 import { SearchService } from './search.service';
+import { ApiMovie } from '../models/api-movie.model';
 
 @Component({
   selector: 'app-search',
@@ -11,7 +12,7 @@ import { SearchService } from './search.service';
 export class SearchComponent implements OnInit {
 
   genres: Genre[];
-  searchResults: object[];
+  searchResults: ApiMovie[];
   selectedGenre: number;
 
   constructor(private searchService: SearchService, private router: Router) { }
