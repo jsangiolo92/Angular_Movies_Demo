@@ -19,7 +19,6 @@ export class AlertComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.movieSub = this.searchService.selectedMovie.subscribe( (data) => {
       this.selectedMovie = data;
-      console.log('selectedMovie in alert component is: ', this.selectedMovie);
     });
   }
 

@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { Genre } from '../models/genre.model';
 import { SearchService } from './search.service';
 import { ApiMovie } from '../models/api-movie.model';
-import { FavoritesService } from '../favorites/favorites.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -20,13 +19,11 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   constructor(
     private searchService: SearchService,
-    private favoritesService: FavoritesService,
     private router: Router
     ) { }
 
   ngOnInit() {
     this.fetchGenres();
-    this.favoritesService.updateFavorites();
     this.genreSub = this.searchService.currentGenre.subscribe( (genreId) => {
       this.selectedGenre = genreId;
     });

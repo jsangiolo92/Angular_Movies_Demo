@@ -22,8 +22,8 @@ export class FavoritesComponent implements OnInit, OnDestroy {
     ) { }
 
   ngOnInit() {
+    this.favoritesService.updateFavorites();
     this.favoritesSub = this.favoritesService.favoriteMovies.subscribe( (data) => {
-      console.log('new value in favoritesComponent Sub');
       this.favoriteMovies = data;
       this.searchService.currentGenre.next(null);
     });
