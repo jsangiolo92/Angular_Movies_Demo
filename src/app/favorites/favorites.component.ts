@@ -22,11 +22,11 @@ export class FavoritesComponent implements OnInit, OnDestroy {
     ) { }
 
   ngOnInit() {
-    this.favoritesService.updateFavorites();
     this.favoritesSub = this.favoritesService.favoriteMovies.subscribe( (data) => {
       this.favoriteMovies = data;
       this.searchService.currentGenre.next(null);
     });
+    this.favoritesService.updateFavorites();
   }
 
   renderImage(url: string): string {

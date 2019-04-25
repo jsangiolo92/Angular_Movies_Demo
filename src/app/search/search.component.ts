@@ -23,10 +23,10 @@ export class SearchComponent implements OnInit, OnDestroy {
     ) { }
 
   ngOnInit() {
-    this.fetchGenres();
     this.genreSub = this.searchService.currentGenre.subscribe( (genreId) => {
       this.selectedGenre = genreId;
     });
+    this.fetchGenres();
   }
 
   fetchGenres(): void {
