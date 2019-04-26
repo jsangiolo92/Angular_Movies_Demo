@@ -8,7 +8,7 @@ import { APIResponse } from '../models/api-response.model';
 })
 export class SearchService {
 
-  private genresUrl = 'http://localhost:4000/api';dr
+  private genresUrl = 'http://localhost:4000/api';
   private moviesUrl = 'http://localhost:4000/api/genre';
   public genres = new BehaviorSubject([]);
   public selectedGenre = new BehaviorSubject(null);
