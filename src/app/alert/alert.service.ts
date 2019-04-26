@@ -1,7 +1,7 @@
-import { SearchService } from '../search/search.service';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
 import { ApiMovie } from '../models/api-movie.model';
 import { DatabaseMovie } from '../models/database-movie.model';
 import { DatabaseResponse } from '../models/database-response.model';
@@ -12,10 +12,10 @@ import { DatabaseResponse } from '../models/database-response.model';
 export class AlertService {
 
   private postEndPoint = 'http://localhost:4000/favorites';
+  public selectedMovie = new BehaviorSubject({});
 
   constructor(
     private router: Router,
-    private searchService: SearchService,
     private http: HttpClient
     ) {}
 
@@ -35,8 +35,16 @@ export class AlertService {
     });
   }
 
+  updateSelectedMovie(movie: ApiMovie) {
+    this.selectedMovie.next(movie);
+  }
+
+  getSelectedMovie() {
+    return this.selectedMovie.asObservable();
+  }
+
   cancelSelection(): void {
-    this.searchService.selectedMovie.next({});
+    this.selectedMovie.next({});
     this.router.navigate(['']);
   }
 }

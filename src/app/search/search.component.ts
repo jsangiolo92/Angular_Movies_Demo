@@ -4,6 +4,7 @@ import { Genre } from '../models/genre.model';
 import { SearchService } from './search.service';
 import { ApiMovie } from '../models/api-movie.model';
 import { Subscription } from 'rxjs';
+import { AlertService } from '../alert/alert.service';
 
 @Component({
   selector: 'app-search',
@@ -12,41 +13,43 @@ import { Subscription } from 'rxjs';
 })
 export class SearchComponent implements OnInit, OnDestroy {
 
+  genresSub: Subscription;
   genres: Genre[];
+  searchSub: Subscription;
   searchResults: ApiMovie[];
-  genreSub: Subscription;
+  selectedGenreSub: Subscription;
   selectedGenre: number;
 
   constructor(
+    private alertService: AlertService,
     private searchService: SearchService,
     private router: Router
     ) { }
 
   ngOnInit() {
-    this.genreSub = this.searchService.currentGenre.subscribe( (genreId) => {
+    this.selectedGenreSub = this.searchService.getSelectedGenre().subscribe( (genreId) => {
       this.selectedGenre = genreId;
+    });
+    this.genresSub = this.searchService.getGenres().subscribe( (data) => {
+      this.genres = data;
+    });
+    this.searchSub = this.searchService.getSearchResults().subscribe( (data) => {
+      this.searchResults = data;
     });
     this.fetchGenres();
   }
 
   fetchGenres(): void {
-    this.searchService.getGenres().subscribe( (response) => {
-      console.log(response.responseStatus);
-      this.genres = response.categories.genres;
-      if (this.selectedGenre) {
-        this.fetchMoviesByGenre();
-      }
-    });
+    if (!this.genres.length) {
+      this.searchService.fetchGenres();
+    }
   }
 
   fetchMoviesByGenre(): void {
     if (!this.selectedGenre) {
       alert('Please select a genre');
     } else {
-      this.searchService.getMoviesByGenre(this.selectedGenre).subscribe( (response) => {
-        console.log(response.responseStatus);
-        this.searchResults = response.moviesOfGenre.results;
-      });
+      this.searchService.fetchMoviesByGenre(this.selectedGenre);
     }
   }
 
@@ -55,20 +58,23 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   onChange(genreId: number) {
-    this.searchService.currentGenre.next(genreId);
+    this.searchService.updateSelectedGenre(genreId);
   }
 
-  onMovieClick(apiMovie: ApiMovie) {
-    this.searchService.selectedMovie.next(apiMovie);
+  onMovieClick(movie: ApiMovie) {
+    this.alertService.updateSelectedMovie(movie);
     this.router.navigate(['/alert']);
   }
 
   goToFavorites() {
+    this.searchService.resetSearchResults();
     this.router.navigate(['favorites']);
   }
 
   ngOnDestroy() {
-    this.genreSub.unsubscribe();
+    this.genresSub.unsubscribe();
+    this.selectedGenreSub.unsubscribe();
+    this.searchSub.unsubscribe();
   }
 
 }

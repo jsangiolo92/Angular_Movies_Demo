@@ -17,7 +17,7 @@ export class AlertComponent implements OnInit, OnDestroy {
   constructor(private alertService: AlertService, private searchService: SearchService) { }
 
   ngOnInit() {
-    this.movieSub = this.searchService.selectedMovie.subscribe( (data) => {
+    this.movieSub = this.alertService.getSelectedMovie().subscribe( (data) => {
       this.selectedMovie = data;
     });
   }

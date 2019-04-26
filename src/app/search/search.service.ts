@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { APIResponse } from '../models/api-response.model';
 
 @Injectable({
@@ -8,20 +8,26 @@ import { APIResponse } from '../models/api-response.model';
 })
 export class SearchService {
 
-  private genresUrl = 'http://localhost:4000/api';
+  private genresUrl = 'http://localhost:4000/api';dr
   private moviesUrl = 'http://localhost:4000/api/genre';
-  public selectedMovie = new BehaviorSubject({});
-  public currentGenre = new BehaviorSubject(null);
+  public genres = new BehaviorSubject([]);
+  public selectedGenre = new BehaviorSubject(null);
+  public searchResults = new BehaviorSubject([]);
 
   constructor(private http: HttpClient) { }
 
-  getGenres(): Observable<APIResponse> {
-    return this.http.get<APIResponse>(this.genresUrl);
+  fetchGenres(): void {
+    this.http.get<APIResponse>(this.genresUrl).subscribe( (response) => {
+      console.log(response.responseStatus);
+      this.genres.next(response.categories.genres);
+    });
   }
 
-  getMoviesByGenre(genreId): Observable<APIResponse> {
-    const endPoint = `${this.moviesUrl}/${genreId}`;
-    return this.http.get<APIResponse>(endPoint);
+  fetchMoviesByGenre(genreId): void {
+    this.http.get<APIResponse>(`${this.moviesUrl}/${genreId}`).subscribe( (response) => {
+      console.log(response.responseStatus);
+      this.searchResults.next(response.moviesOfGenre.results);
+    });
   }
 
   renderImage(url: string, size: number): string {
@@ -30,5 +36,25 @@ export class SearchService {
     } else {
       return 'https://cdn.browshot.com/static/images/not-found.png';
     }
+  }
+
+  updateSelectedGenre(genreId: number) {
+    this.selectedGenre.next(genreId);
+  }
+
+  resetSearchResults() {
+    this.searchResults.next([]);
+  }
+
+  getSelectedGenre() {
+    return this.selectedGenre.asObservable();
+  }
+
+  getGenres() {
+    return this.genres.asObservable();
+  }
+
+  getSearchResults() {
+    return this.searchResults.asObservable();
   }
 }

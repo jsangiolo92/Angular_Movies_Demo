@@ -1,6 +1,7 @@
 import { DatabaseMovie } from './database-movie.model';
+import { ResponseStatus } from './response-status.model';
 
 export interface DatabaseResponse {
-  responseStatus: object;
+  responseStatus: ResponseStatus;
   favoriteMovies: DatabaseMovie[];
 }

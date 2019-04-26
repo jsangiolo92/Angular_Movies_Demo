@@ -22,22 +22,23 @@ export class FavoritesComponent implements OnInit, OnDestroy {
     ) { }
 
   ngOnInit() {
-    this.favoritesSub = this.favoritesService.favoriteMovies.subscribe( (data) => {
+    this.searchService.selectedGenre.next(null);
+    this.favoritesSub = this.favoritesService.getter().subscribe( (data) => {
       this.favoriteMovies = data;
-      this.searchService.currentGenre.next(null);
     });
-    this.favoritesService.updateFavorites();
+    this.fetchFavorites();
   }
 
   renderImage(url: string): string {
     return this.searchService.renderImage(url, 154);
   }
 
+  fetchFavorites() {
+    this.favoritesService.getFavorites();
+  }
+
   deleteFromFavorites(movieId: number) {
-    this.favoritesService.deleteFavorites(movieId).subscribe( (response) => {
-      console.log(response.responseStatus);
-      this.favoritesService.updateFavorites();
-    });
+    this.favoritesService.deleteFavorites(movieId);
   }
 
   goToSearch() {
