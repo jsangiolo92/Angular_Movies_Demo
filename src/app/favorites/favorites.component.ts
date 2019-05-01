@@ -22,8 +22,8 @@ export class FavoritesComponent implements OnInit, OnDestroy {
     ) { }
 
   ngOnInit() {
-    this.searchService.selectedGenre.next(null);
-    this.favoritesSub = this.favoritesService.getter().subscribe( (data) => {
+    this.searchService.updateSelectedGenre(null);
+    this.favoritesSub = this.favoritesService.getFavoriteMovies().subscribe( (data) => {
       this.favoriteMovies = data;
     });
     this.fetchFavorites();
@@ -34,7 +34,7 @@ export class FavoritesComponent implements OnInit, OnDestroy {
   }
 
   fetchFavorites() {
-    this.favoritesService.getFavorites();
+    this.favoritesService.fetchFavorites();
   }
 
   deleteFromFavorites(movieId: number) {

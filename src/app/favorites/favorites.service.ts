@@ -15,7 +15,7 @@ export class FavoritesService {
 
   constructor(private http: HttpClient) { }
 
-  getFavorites(): void {
+  fetchFavorites(): void {
     this.http.get<DatabaseResponse>(this.favoritesEndPoint).subscribe( (response) => {
       this.favoriteMovies.next(response.favoriteMovies);
       console.log(response.responseStatus);
@@ -26,11 +26,11 @@ export class FavoritesService {
   deleteFavorites(movieId: number): void {
     this.http.delete<DatabaseResponse>(`${this.favoritesEndPoint}/${movieId}`).subscribe( (response) => {
       console.log(response.responseStatus);
-      this.getFavorites();
+      this.fetchFavorites();
     });
   }
 
-  getter(): Observable<DatabaseMovie[]> {
+  getFavoriteMovies(): Observable<DatabaseMovie[]> {
     return this.favoriteMovies.asObservable();
   }
 }
